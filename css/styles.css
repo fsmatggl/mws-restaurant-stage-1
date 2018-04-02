@@ -44,9 +44,14 @@ h2 {
 article, aside, canvas, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
 	display: block;
 }
+img, embed, object, video {
+  max-width: 100%;
+}
 #maincontent {
   background-color: #f3f3f3;
   min-height: 100%;
+  display: flex;
+  flex-wrap: wrap;
 }
 #footer {
   background-color: #444;

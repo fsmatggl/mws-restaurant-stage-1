@@ -127,6 +127,9 @@ nav h1 a {
   width: 100%;
 }
 /* ====================== Restaurant Filtering ====================== */
+#filter {
+  width: 100%;
+}
 .filter-options {
   width: 100%;
   padding: 25px 0px;

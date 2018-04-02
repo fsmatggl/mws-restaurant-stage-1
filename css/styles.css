@@ -1,6 +1,11 @@
 @charset "utf-8";
 /* CSS Document */
 
+* {
+  margin: 0px;
+  padding: 0px;
+}
+
 body, td, th, p{
 	font-family: 'Open Sans', sans-serif;
   font-size: 1rem;
@@ -147,18 +152,17 @@ nav h1 a {
 #restaurants-list {
   background-color: #f3f3f3;
   list-style: outside none none;
-  margin: 0;
-  padding: 30px 15px 60px;
   text-align: center;
 }
 #restaurants-list li {
-  background-color: #fff;
-  border: 2px solid #ccc;
-  margin: 15px;
   min-height: 380px;
-  padding: 0 30px 25px;
-  text-align: left;
-  width: 270px;
+  margin: 0 0 40px;
+  padding: 0 0 15px;
+  background-color: #fff;
+  box-shadow: 0 1px 10px 0px rgba(151, 151, 151, 0.712);
+}
+#restaurants-list li:last-of-type {
+  margin: 0;
 }
 #restaurants-list .restaurant-img {
   background-color: #ccc;
@@ -185,8 +189,8 @@ nav h1 a {
   border-bottom: 3px solid #eee;
   color: #fff;
   display: inline-block;
-  margin: 15px 0 0;
-  padding: 8px 30px 10px;
+  margin: 30px 0;
+  padding: 13px 30px;
   text-align: center;
   text-decoration: none;
   text-transform: uppercase;

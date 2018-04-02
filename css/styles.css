@@ -158,16 +158,18 @@ nav h1 a {
   background-color: #f3f3f3;
   list-style: outside none none;
   text-align: center;
+  margin: 15px 0;
 }
 #restaurants-list li {
   min-height: 380px;
-  margin: 0 0 40px;
+  width: 375px;
+  margin: 0 auto 40px;
   padding: 0 0 15px;
   background-color: #fff;
   box-shadow: 0 1px 10px 0px rgba(151, 151, 151, 0.712);
 }
 #restaurants-list li:last-of-type {
-  margin: 0;
+  margin: 0 auto;
 }
 #restaurants-list .restaurant-img {
   background-color: #ccc;

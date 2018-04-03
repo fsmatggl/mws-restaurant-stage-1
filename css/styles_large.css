@@ -31,6 +31,11 @@
 }
 
 /* ====================== Restaurant Listing ====================== */
+#restaurant-container {
+  width: var(--max-width);
+  margin: auto;
+}
+
 #restaurants-list {
   display: flex;
   flex-wrap: wrap;
@@ -49,3 +54,50 @@
 }
 
 /* ====================== Restaurant Details ====================== */
+.inside #map {
+  width: 100%;
+  height: 292px;
+}
+
+#restaurant-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.restaurant-intro {
+  max-width: 800px;
+  margin: auto;
+}
+
+.restaurant-address,
+.restaurant-hours {
+  width: 50%;
+}
+
+tr:nth-child(odd) {
+  background-color: #ddd;
+}
+
+tr:nth-child(even) {
+  background-color: white;
+}
+
+#restaurant-container section:nth-child(2),
+#restaurant-container section:nth-child(3) {
+  padding: 1px 0 0 0;
+  background-color: white;
+}
+
+
+#restaurant-container section:nth-child(4) {
+  padding: 1px 0 0 0;
+  background-color: inherit;
+}
+
+#reviews-list li:nth-child(even) {
+  background-color: inherit;
+}
+
+td {
+  padding: 10px 58.750px 10px 58.750px;
+}

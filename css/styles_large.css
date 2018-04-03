@@ -31,7 +31,6 @@
 }
 
 /* ====================== Restaurant Listing ====================== */
-
 #restaurants-list {
   display: flex;
   flex-wrap: wrap;

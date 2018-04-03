@@ -26,33 +26,39 @@
     <nav>
       <h1><a href="/">Restaurant Reviews</a></h1>
     </nav>
-    <ul id="breadcrumb" >
-      <li><a href="/">Home</a></li>
-    </ul>
+    <div class="breadcrumb-container">
+      <ul id="breadcrumb" >
+        <li><a href="/">Home</a></li>
+      </ul>
+    </div>
   </header>
 
   <main id="maincontent">
     <section id="restaurant-container">
-      <section>
+      <section class="restaurant-intro">
         <h1 id="restaurant-name"></h1>
         <p id="restaurant-cuisine"></p>
         <img id="restaurant-img">
       </section>
 
-      <section>
-        <div class="restaurant-icon">
-            <i class="fas fa-map-marker"></i>
+      <section class="restaurant-address">
+        <div class="restaurant-address-header">
+          <div class="restaurant-icon">
+              <i class="fas fa-map-marker"></i>
+          </div>
+          <h2 class="restaurant-section-title">Address</h2>
+          <p id="restaurant-address"></p>
         </div>
-        <h2 class="restaurant-section-title">Address</h2>
-        <p id="restaurant-address"></p>
         <div id="map"></div>
       </section>
 
-      <section>
-        <div class="restaurant-icon">
-            <i class="far fa-clock"></i>
+      <section class="restaurant-hours">
+        <div class="restaurant-hours-header">
+          <div class="restaurant-icon">
+              <i class="far fa-clock"></i>
+          </div>
+          <h2 class="restaurant-section-title">Hours</h2>
         </div>
-        <h2 class="restaurant-section-title">Hours</h2>
         <table id="restaurant-hours"></table>
       </section>
 

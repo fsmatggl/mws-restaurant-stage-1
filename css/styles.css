@@ -128,12 +128,13 @@ nav h1 a {
   text-transform: uppercase;
 }
 
+.breadcrumb-container {
+  padding: 15px 0 15px 30px;
+  background-color: #eee;
+}
+
 #breadcrumb {
-    padding: 15px 0 15px 30px;
     list-style: none;
-    background-color: #eee;
-    margin: 0;
-    width: 100%;
 }
 
 /* Display list items side by side */
@@ -143,7 +144,6 @@ nav h1 a {
 
 /* Add a slash symbol (/) before/behind each list item */
 #breadcrumb li+li:before {
-    padding: 8px;
     color: black;
     content: "/\00a0";
 }
@@ -289,11 +289,6 @@ nav h1 a {
   width: 100%;
 }
 
-#restaurant-address {
-  text-align: center;
-  margin: 10px 0px;
-}
-
 .restaurant-icon {
   color: #f18200;
   margin: 20px 0 10px;
@@ -301,18 +296,30 @@ nav h1 a {
   text-align: center;
 }
 
+.restaurant-address {
+  width: 100%;
+}
+
+.restaurant-address p,
+#restaurant-today {
+  text-align: center;
+  margin: 10px 0px;
+}
+
+.restaurant-hours {
+  width: 100%;
+}
+
 table, th, td {
   border-collapse: collapse;
-  border: 1px 0 solid #c0c0c0;
 }
 
 table {
   width: 100%;
-  margin: 0 5px;
 }
 
 td {
-  padding: 10px;
+  padding: 10px 5vw 10px 5vw;
 }
 
 tr:nth-child(even) {
@@ -321,6 +328,10 @@ tr:nth-child(even) {
 
 .restaurant-section-title {
   text-align: center;
+}
+
+.reviews-container {
+  width: 100%;
 }
 
 #reviews-list li {

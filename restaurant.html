@@ -32,20 +32,37 @@
   </header>
 
   <main id="maincontent">
-    <section id="map-container">
-      <div id="map"></div>
-    </section>
-
     <section id="restaurant-container">
-      <h1 id="restaurant-name"></h1>
-      <img id="restaurant-img">
-      <p id="restaurant-cuisine"></p>
-      <p id="restaurant-address"></p>
-      <table id="restaurant-hours"></table>
-    </section>
+      <section>
+        <h1 id="restaurant-name"></h1>
+        <p id="restaurant-cuisine"></p>
+        <img id="restaurant-img">
+      </section>
 
-    <section id="reviews-container">
-      <ul id="reviews-list"></ul>
+      <section>
+        <div class="restaurant-icon">
+            <i class="fas fa-map-marker"></i>
+        </div>
+        <h2 class="restaurant-section-title">Address</h2>
+        <p id="restaurant-address"></p>
+        <div id="map"></div>
+      </section>
+
+      <section>
+        <div class="restaurant-icon">
+            <i class="far fa-clock"></i>
+        </div>
+        <h2 class="restaurant-section-title">Hours</h2>
+        <table id="restaurant-hours"></table>
+      </section>
+
+      <section id="reviews-container">
+          <div class="restaurant-icon">
+              <i class="fas fa-comment-alt"></i>
+          </div>
+          <h2 class="restaurant-section-title">Reviews</h2>
+          <ul id="reviews-list"></ul>
+        </section>
     </section>
   </main>
 
@@ -60,6 +77,8 @@
   <script type="text/javascript" src="js/restaurant_info.js"></script>
   <!-- Google Maps -->
   <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDut4PY7wqSrnsuqMx4khkdZxFLTelhe1k&libraries=places&callback=initMap"></script>
+  <!-- Icon font -->
+  <script defer src="https://use.fontawesome.com/releases/v5.0.9/js/all.js" integrity="sha384-8iPTk2s/jMVj81dnzb/iFR2sdA7u06vHJyyLlAd4snFpCl/SnyUjRrbdJsw1pGIl" crossorigin="anonymous"></script>
 </body>
 
 </html>

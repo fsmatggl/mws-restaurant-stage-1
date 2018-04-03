@@ -76,4 +76,6 @@ tr:nth-child(even) {
   background-color: inherit;
 }
 
-
+td {
+  padding: 10px 38.750px 10px 38.750px;
+}

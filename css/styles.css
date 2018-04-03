@@ -161,15 +161,15 @@ nav h1 a {
 }
 
 /* ====================== Map ====================== */
+#map-container {
+  height: 400px;
+  width: 100%;
+}
+
 #map {
   height: 400px;
   width: 100%;
   background-color: #ccc;
-}
-
-#map-container {
-  height: 400px;
-  width: 100%;
 }
 
 /* ====================== Restaurant Filtering ====================== */

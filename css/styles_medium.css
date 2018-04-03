@@ -1,0 +1,36 @@
+@charset "utf-8";
+/* CSS Document */
+
+/* ====================== Variables ====================== */
+:root {
+  --restaurant-li-inner-gap: 25px;
+  --restaurant-li-width: 375px;
+  --restaurant-li-inner-margin: calc(var(--restaurant-li-inner-gap) / 2);
+  --restaurant-li-outer-margin: calc((100% - 2*var(--restaurant-li-width) - var(--restaurant-li-inner-gap))/2);
+}
+
+/* ====================== Navigation ====================== */
+
+
+/* ====================== Map ====================== */
+
+
+/* ====================== Restaurant Filtering ====================== */
+
+
+/* ====================== Restaurant Listing ====================== */
+
+#restaurants-list {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+#restaurants-list li:nth-child(odd) {
+  margin: 0 var(--restaurant-li-inner-margin) 40px var(--restaurant-li-outer-margin);
+}
+
+#restaurants-list li:nth-child(even) {
+  margin: 0 var(--restaurant-li-outer-margin) 40px var(--restaurant-li-inner-margin);
+}
+
+/* ====================== Restaurant Details ====================== */

@@ -221,6 +221,10 @@ nav h1 a {
   margin: 0 auto;
 }
 
+.restaurant-img {
+  width: 100%;
+}
+
 #restaurants-list .restaurant-img {
   background-color: #ccc;
   display: block;

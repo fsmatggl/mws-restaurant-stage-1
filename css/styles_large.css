@@ -107,6 +107,10 @@ tr:nth-child(even) {
   background-color: inherit;
 }
 
-td {
-  padding: 10px 58.750px 10px 58.750px;
+td:nth-child(odd) {
+  padding: 10px 25.25px 10px 50.5px;
+}
+
+td:nth-child(even) {
+  padding: 10px 50.5px 10px 25.25px;
 }

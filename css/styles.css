@@ -324,8 +324,12 @@ table {
   width: 100%;
 }
 
-td {
-  padding: 10px 5vw 10px 5vw;
+td:nth-child(odd) {
+  padding: 10px 8px 10px 16px;
+}
+
+td:nth-child(even) {
+  padding: 10px 16px 10px 8px;
 }
 
 tr:nth-child(even) {

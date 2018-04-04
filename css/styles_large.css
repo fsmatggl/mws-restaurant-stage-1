@@ -10,6 +10,15 @@
   --restaurant-li-outer-margin: calc((100% - 3*var(--restaurant-li-width) - var(--restaurant-li-inner-gap)*2)/2);
 }
 
+/* ====================== General ====================== */
+#maincontent {
+  background-color: #f3f3f3;
+  min-height: 100%;
+  min-width: 320px;
+  display: block;
+  flex-wrap: nowrap;
+}
+
 /* ====================== Navigation ====================== */
 
 

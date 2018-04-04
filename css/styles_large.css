@@ -3,9 +3,9 @@
 
 /* ====================== Variables ====================== */
 :root {
-  --max-width: 1175px;
+  --max-width: 1010px;
   --restaurant-li-inner-gap: 25px;
-  --restaurant-li-width: 375px;
+  --restaurant-li-width: 320px;
   --restaurant-li-inner-margin: calc(var(--restaurant-li-inner-gap) / 2);
   --restaurant-li-outer-margin: calc((100% - 3*var(--restaurant-li-width) - var(--restaurant-li-inner-gap)*2)/2);
 }

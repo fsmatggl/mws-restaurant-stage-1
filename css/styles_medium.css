@@ -4,7 +4,7 @@
 /* ====================== Variables ====================== */
 :root {
   --restaurant-li-inner-gap: 25px;
-  --restaurant-li-width: 375px;
+  --restaurant-li-width: 320px;
   --restaurant-li-inner-margin: calc(var(--restaurant-li-inner-gap) / 2);
   --restaurant-li-outer-margin: calc((100% - 2*var(--restaurant-li-width) - var(--restaurant-li-inner-gap))/2);
 }

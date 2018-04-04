@@ -58,21 +58,22 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   let image;
   let imageSrc;
 
-  /* Set small image */
-  image = document.getElementById('restaurant-img-small');
-  image.src = `/img_sized/${restaurant.id}-small.jpg`;
-  image.className = 'restaurant-img';
-  image.alt = restaurant.alt;
+  /* Set large image */
+  image = document.getElementById('restaurant-img-large');
+  image.media = '(min-width: 625px)';
+  image.srcset =  `/img_sized/${restaurant.id}-large.jpg 800w`;
 
   /* Set medium image */
   image = document.getElementById('restaurant-img-medium');
   image.media = '(min-width: 425px)';
   image.srcset = `/img_sized/${restaurant.id}-medium.jpg 625w`;
   
-  /* Set large image */
-  image = document.getElementById('restaurant-img-large');
-  image.media = '(min-width: 625px)';
-  image.srcset =  `/img_sized/${restaurant.id}-large.jpg 800w`;
+  /* Set small image */
+  image = document.getElementById('restaurant-img-small');
+  image.src = `/img_sized/${restaurant.id}-small.jpg`;
+  image.className = 'restaurant-img';
+  image.alt = restaurant.alt;
+
 
   const cuisine = document.getElementById('restaurant-cuisine');
   cuisine.innerHTML = restaurant.cuisine_type;

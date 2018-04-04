@@ -80,6 +80,13 @@ window.initMap = () => {
     center: loc,
     scrollwheel: false
   });
+
+  /* Wait until the map is fully loaded and remove iframe tabindex */
+  const listener = self.map.addListener('tilesloaded', () => {
+    removeMapsElementFocus();
+    google.maps.event.removeListener(listener)
+  });
+
   updateRestaurants();
 }
 
@@ -195,4 +202,22 @@ addMarkersToMap = (restaurants = self.restaurants) => {
     });
     self.markers.push(marker);
   });
+}
+
+/**
+ * Remove all the map iframes and areas from the tab order
+ */
+removeMapsElementFocus = () => {
+  const map = document.getElementById('map');
+  const iframes = map.querySelectorAll("iframe");
+
+   for (iframe of iframes) {
+     iframe.setAttribute('tabindex', '-1');
+   }
+
+   const areas = map.querySelectorAll("area");
+
+   for (area of areas) {
+    area.setAttribute('tabindex', '-1');
+  }
 }

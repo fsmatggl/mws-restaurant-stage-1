@@ -14,6 +14,13 @@ window.initMap = () => {
         center: restaurant.latlng,
         scrollwheel: false
       });
+
+      /* Wait until the map is fully loaded and remove iframe tabindex */
+      const listener = self.map.addListener('tilesloaded', () => {
+        removeMapsElementFocus();
+        google.maps.event.removeListener(listener)
+      });
+
       fillBreadcrumb();
       DBHelper.mapMarkerForRestaurant(self.restaurant, self.map);
     }
@@ -193,4 +200,22 @@ getParameterByName = (name, url) => {
   if (!results[2])
     return '';
   return decodeURIComponent(results[2].replace(/\+/g, ' '));
+}
+
+/**
+ * Remove all the map iframes and areas from the tab order
+ */
+removeMapsElementFocus = () => {
+  const map = document.getElementById('map');
+  const iframes = map.querySelectorAll("iframe");
+
+   for (iframe of iframes) {
+     iframe.setAttribute('tabindex', '-1');
+   }
+
+   const areas = map.querySelectorAll("area");
+
+   for (area of areas) {
+    area.setAttribute('tabindex', '-1');
+  }
 }

@@ -12,7 +12,12 @@ module.exports = function(grunt) {
       responsive_images: {
         dev: {
           options: {
-            engine: 'im'
+            engine: 'im',
+            sizes: [
+              {name: 'small', width: 425, quality: 75},
+              {name: 'medium', width: 625, quality: 75},
+              {name: 'large', width: 800, quality: 75}
+            ]
           },
           files: [{
             expand: true,
@@ -26,7 +31,7 @@ module.exports = function(grunt) {
       /* Clear out the images directory if it exists */
       clean: {
         dev: {
-          src: ['images'],
+          src: ['img_sized'],
         },
       },
   
@@ -34,7 +39,7 @@ module.exports = function(grunt) {
       mkdir: {
         dev: {
           options: {
-            create: ['images']
+            create: ['img_sized']
           },
         },
       },

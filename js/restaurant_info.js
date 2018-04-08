@@ -17,7 +17,7 @@ window.initMap = () => {
 
       /* Wait until the map is fully loaded and remove iframe tabindex */
       const listener = self.map.addListener('tilesloaded', () => {
-        removeMapsElementFocus();
+        removeMapsElementFocusAndSetAria();
         google.maps.event.removeListener(listener)
       });
 
@@ -203,19 +203,21 @@ getParameterByName = (name, url) => {
 }
 
 /**
- * Remove all the map iframes and areas from the tab order
+ * Remove all the map iframes and areas from the tab order and set aria labels
  */
-removeMapsElementFocus = () => {
+removeMapsElementFocusAndSetAria = () => {
   const map = document.getElementById('map');
   const iframes = map.querySelectorAll("iframe");
 
    for (iframe of iframes) {
      iframe.setAttribute('tabindex', '-1');
+     iframe.setAttribute('aria-label', 'Google Maps');
    }
 
    const areas = map.querySelectorAll("area");
 
    for (area of areas) {
     area.setAttribute('tabindex', '-1');
+    area.setAttribute('aria-hidden', 'true');
   }
 }

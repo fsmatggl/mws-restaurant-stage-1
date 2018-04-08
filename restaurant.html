@@ -27,7 +27,7 @@
       <h1><a href="/">Restaurant Reviews</a></h1>
     </nav>
     <div class="breadcrumb-container">
-      <ul id="breadcrumb" >
+      <ul id="breadcrumb" aria-label="Breabcrumb" role="navigation">
         <li><a href="/">Home</a></li>
       </ul>
     </div>
@@ -35,15 +35,14 @@
 
   <main id="maincontent">
     <section id="restaurant-container">
-      <section class="restaurant-intro">
+      <section class="restaurant-intro" aria-label="Restaurant info">
         <h1 id="restaurant-name"></h1>
         <p id="restaurant-cuisine"></p>
-        <picture>
+        <picture aria-label="Restaurant image">
             <source id="restaurant-img-large">
             <source id="restaurant-img-medium">
             <img id="restaurant-img-small">
         </picture>
-
       </section>
 
       <section class="restaurant-address">
@@ -54,7 +53,7 @@
           <h2 class="restaurant-section-title">Address</h2>
           <p id="restaurant-address"></p>
         </div>
-        <div id="map"></div>
+        <div id="map" aria-label="Google Maps" role="application"></div>
       </section>
 
       <section class="restaurant-hours">
@@ -65,7 +64,7 @@
           <h2 class="restaurant-section-title">Hours</h2>
           <p id="restaurant-today"></p>
         </div>
-        <table id="restaurant-hours"></table>
+        <table id="restaurant-hours" aria-label="Available hours"></table>
       </section>
 
       <section id="reviews-container">
@@ -73,12 +72,12 @@
               <i class="fas fa-comment-alt"></i>
           </div>
           <h2 class="restaurant-section-title">Reviews</h2>
-          <ul id="reviews-list"></ul>
+          <ul id="reviews-list" aria-label="Customers' reviews"></ul>
         </section>
     </section>
   </main>
 
-  <footer id="footer">
+  <footer id="footer" area-label="footer">
     Copyright (c) 2017 <a href="/"><strong>Restaurant Reviews</strong></a> All Rights Reserved.
   </footer>
 

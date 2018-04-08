@@ -219,5 +219,6 @@ removeMapsElementFocus = () => {
 
    for (area of areas) {
     area.setAttribute('tabindex', '-1');
+    area.setAttribute('aria-hidden', 'true');
   }
 }

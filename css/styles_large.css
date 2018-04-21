@@ -24,18 +24,21 @@
 
 /* ====================== Map ====================== */
 #map {
-  width: var(--max-width);
+  /* width: var(--max-width); */
+  width: 100%;
 }
 
 #map-container {
-  width: var(--max-width);
+  /* width: var(--max-width); */
+  width: 100%;
   margin: auto;
 }
 
 
 /* ====================== Restaurant Filtering ====================== */
 #filter {
-  width: var(--max-width);
+  /* width: var(--max-width); */
+  width: 100%;
   margin: auto;
 }
 
@@ -46,11 +49,13 @@
 }
 
 #restaurants-list {
+  width: 100%;
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
 }
 
-#restaurants-list li:nth-child(3n+1) {
+/* #restaurants-list li:nth-child(3n+1) {
   margin: 0 var(--restaurant-li-inner-margin) 40px var(--restaurant-li-outer-margin);
 }
 
@@ -60,6 +65,14 @@
 
 #restaurants-list li:nth-child(3n+0) {
   margin: 0 var(--restaurant-li-outer-margin) 40px var(--restaurant-li-inner-margin);
+} */
+
+#restaurants-list li {
+  margin: 0 var(--restaurant-li-inner-margin) 15px;
+}
+
+#restaurants-list li:last-of-type {
+  margin: 0 var(--restaurant-li-inner-margin);
 }
 
 /* ====================== Restaurant Details ====================== */

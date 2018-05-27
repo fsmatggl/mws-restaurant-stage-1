@@ -8,27 +8,91 @@ class DBHelper {
    * Change this to restaurants.json file location on your server.
    */
   static get DATABASE_URL() {
-    const port = 8000 // Change this to your server port
-    return `http://localhost:${port}/data/restaurants.json`;
+    // const port = 8000 // Change this to your server port
+    const port = 1337 // Node server
+    // return `http://localhost:${port}/data/restaurants.json`;
+    return `http://localhost:${port}/restaurants`;
+  }
+
+  /**
+   * IndexedDB Database name
+   */
+  static get IDB_DATABASE_NAME() {
+    return 'mws-restaurant';
+  }
+
+  /**
+   * IndexedDB Database restaurant storage name
+   */
+  static get IDB_RESTAURANT_STORE_NAME() {
+    return 'restaurants';
+  }
+
+  /**
+   * Open the database where restaurants are stored
+   */
+  static openDatabase() {
+    return idb.open(DBHelper.IDB_DATABASE_NAME, 1, function(upgradeDb) {
+      console.log(`database oldVersion ${upgradeDb.oldVersion}`);
+      switch(upgradeDb.oldVersion) {
+        case 0:
+          console.log('created object store restaurants');
+          upgradeDb.createObjectStore(DBHelper.IDB_RESTAURANT_STORE_NAME);
+      }
+    });
+  };
+
+  /**
+   * Save restaurants data in the IDB database
+   */
+  static saveData(restaurants) {
+    console.log('Saving data');
+    let dbPromise = DBHelper.openDatabase();
+    dbPromise.then(db => {
+      let tx = db.transaction(DBHelper.IDB_RESTAURANT_STORE_NAME, 'readwrite');
+      let restaurantsStore = tx.objectStore(DBHelper.IDB_RESTAURANT_STORE_NAME);
+
+      restaurants.forEach((restaurant) => {
+        restaurantsStore.put(restaurant, restaurant.id);
+      });
+    });
   }
 
   /**
    * Fetch all restaurants.
    */
   static fetchRestaurants(callback) {
-    let xhr = new XMLHttpRequest();
-    xhr.open('GET', DBHelper.DATABASE_URL);
-    xhr.onload = () => {
-      if (xhr.status === 200) { // Got a success response from server!
-        const json = JSON.parse(xhr.responseText);
-        const restaurants = json.restaurants;
-        callback(null, restaurants);
-      } else { // Oops!. Got an error from server.
-        const error = (`Request failed. Returned status of ${xhr.status}`);
-        callback(error, null);
-      }
-    };
-    xhr.send();
+    /* Open the IDB database */
+    let dbPromise = DBHelper.openDatabase();
+    dbPromise.then(db => {
+      /* Open transaction to retrieve restaurants */
+      let tx = db.transaction(DBHelper.IDB_RESTAURANT_STORE_NAME, 'readwrite');
+      let restaurantsStore = tx.objectStore(DBHelper.IDB_RESTAURANT_STORE_NAME);
+      let restaurants = restaurantsStore.getAll().then((restaurants) => {
+        /* There are no restaurants in the database */
+        if (restaurants.length === 0) {
+          console.log('No restaurants data found in the database. Requesting data from the server');
+          /* Retrieve data from the server */
+          fetch(DBHelper.DATABASE_URL).then( response => {
+            if (response.status === 200) { // Got a success response from server!
+              console.log('Successfully retrieved restaurant data')
+              response.json().then(function(data) {
+                /* Save data in IDB */
+                DBHelper.saveData(data);
+                callback(null, data);
+              });
+            } else { // Oops!. Got an error from server.
+              const error = (`Request failed. Returned status of ${response.status}`);
+              callback(error, null);
+            }
+          });
+        } else {
+          /* Restaurants found in the IDB */
+          console.log('Using restaurant data found in IDB database');
+          callback(null, restaurants);
+        }
+      });
+    }) 
   }
 
   /**

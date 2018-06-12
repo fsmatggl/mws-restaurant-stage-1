@@ -4,6 +4,25 @@ let restaurants,
 var map
 var markers = []
 
+let lazyImageObserver;
+
+if ("IntersectionObserver" in window) {
+  lazyImageObserver = new IntersectionObserver(function(entries, observer) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        let lazyImage = entry.target;
+        console.log(lazyImage);
+        lazyImage.src = lazyImage.getAttribute('data-src');
+        //lazyImage.srcset = lazyImage.dataset.srcset;
+        lazyImage.classList.remove("lazy");
+        lazyImageObserver.unobserve(lazyImage);
+      }
+    });
+  });
+} else {
+  console.error('Could not use IntersectionObserver');
+}
+
 /**
  * Fetch neighborhoods and cuisines as soon as the page is loaded.
  */
@@ -163,8 +182,12 @@ createRestaurantHTML = (restaurant) => {
 
   /* Append img for small resolution */
   const image = document.createElement('img');
-  image.src = `/img_sized/${restaurant.id}-small.jpg`;
-  image.className = 'restaurant-img';
+  image.setAttribute('src', 'img/placeholder.jpg');
+  image.className = 'restaurant-img lazy';
+
+  //image.src = `/img_sized/${restaurant.id}-small.jpg`;
+  image.setAttribute('data-src', `/img_sized/${restaurant.id}-small.jpg`);
+
   image.alt = restaurant.alt;
   picture.append(image);
 

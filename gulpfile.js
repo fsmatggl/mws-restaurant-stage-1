@@ -4,6 +4,7 @@ var imagemin = require('gulp-imagemin');
 var pngquant = require('imagemin-pngquant');
 var uglify = require('gulp-uglify');
 var babel = require('gulp-babel');
+const webp = require('gulp-webp');
 
 /* Add the new tasks `copy-image` and `copy-html` to the default taks */
 gulp.task('default', ['copy-html', 'copy-images', 'scripts-dist'], function() {
@@ -21,6 +22,7 @@ gulp.task('copy-images', function() {
         progressive: true,
         use: [pngquant()]
     }))
+    .pipe(webp())
     .pipe(gulp.dest('dist/img'));
 });
 

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Set charset tag -->
+  <meta charset="utf-8">
+  <!-- PWA Manifest -->
+  <link rel="manifest" href="/manifest.webmanifest">
+  <meta name="theme-color" content="#f18200">
+  <!-- Setting the viewport tag -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Normalize.css for better cross-browser consistency -->
+  <link rel="stylesheet" src="//normalize-css.googlecode.com/svn/trunk/normalize.css" />
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Quicksand" rel="stylesheet">
+
+  <!-- CSS files -->
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/styles_medium.css" media="screen and (min-width: 665px) and (max-width: 1009px)">
+  <link rel="stylesheet" href="css/styles_large.css" media="screen and (min-width: 1010px)">
+
+  <!-- Favicon -->
+  <link rel="icon" href="img/icon.png">
+
+  <title>Restaurant Reviews</title>
+</head>
+
+<body>
+  <header>
+    <nav aria-label="Navigation">
+      <h1><a href="/">Restaurant Reviews</a></h1>
+    </nav>
+  </header>
+
+  <main id="maincontent">
+    <section id="map-container">
+      <div id="map" aria-label="Google Maps" role="application"></div>
+    </section>
+
+    <section id="filter">
+      <div class="filter-options">
+        <h2>Filter Results</h2>
+        <select id="neighborhoods-select" aria-label="Neighborhoods" onchange="updateRestaurants()">
+          <option value="all">All Neighborhoods</option>
+        </select>
+        <select id="cuisines-select" aria-label="Cuisines" onchange="updateRestaurants()">
+          <option value="all">All Cuisines</option>
+        </select>
+      </div>
+      <ul id="restaurants-list" aria-label="Restaurant list"></ul>
+    </section>
+  </main>
+
+  <!-- Scripts -->
+  <!-- SW Initialization-->
+  <script type="application/javascript" charset="utf-8" src="js/sw_init.js"></script>
+  <!-- Database helpers -->
+  <script type="application/javascript" charset="utf-8" src="js/dbhelper.js"></script>
+  <script type="application/javascript" charset="utf-8" src="node_modules/idb/lib/idb.js"></script>
+  <!-- Main javascript file -->
+  <script type="application/javascript" charset="utf-8" src="js/main.js"></script>
+  <!-- Google Maps -->
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDut4PY7wqSrnsuqMx4khkdZxFLTelhe1k&libraries=places&callback=initMap"></script>
+
+  <footer id="footer">
+    Copyright (c) 2017 <a href="/"><strong>Restaurant Reviews</strong></a> All Rights Reserved.
+  </footer>
+
+</body>
+
+</html>

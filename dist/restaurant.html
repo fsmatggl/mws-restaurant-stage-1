@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Set charset tag -->
+  <meta charset="utf-8">
+  <!-- Setting the viewport tag -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Normalize.css for better cross-browser consistency -->
+  <link rel="stylesheet" src="//normalize-css.googlecode.com/svn/trunk/normalize.css" />
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Quicksand" rel="stylesheet">
+
+  <!-- CSS files -->
+  <link rel="stylesheet" href="css/styles.css" type="text/css">
+  <link rel="stylesheet" href="css/styles_medium.css" media="screen and (min-width: 665px) and (max-width: 1009px)">
+  <link rel="stylesheet" href="css/styles_large.css" media="screen and (min-width: 1010px)">
+
+    <!-- Favicon -->
+    <link rel="icon" href="img/icon.png">
+
+  <title>Restaurant Info</title>
+</head>
+
+<body class="inside">
+  <header>
+    <nav>
+      <h1><a href="/">Restaurant Reviews</a></h1>
+    </nav>
+    <div class="breadcrumb-container">
+      <ul id="breadcrumb" aria-label="Breabcrumb" role="navigation">
+        <li><a href="/">Home</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main id="maincontent">
+    <section id="restaurant-container">
+      <section class="restaurant-intro" aria-label="Restaurant info">
+        <h2 id="restaurant-name"></h2>
+        <p id="restaurant-cuisine"></p>
+        <picture aria-label="Restaurant image">
+            <source id="restaurant-img-large">
+            <source id="restaurant-img-medium">
+            <img id="restaurant-img-small">
+        </picture>
+      </section>
+
+      <section class="restaurant-address">
+        <div class="restaurant-address-header">
+          <div class="restaurant-icon">
+              <i class="fas fa-map-marker"></i>
+          </div>
+          <h3 class="restaurant-section-title">Address</h3>
+          <p id="restaurant-address"></p>
+        </div>
+        <div id="map" aria-label="Google Maps" role="application"></div>
+      </section>
+
+      <section class="restaurant-hours">
+        <div class="restaurant-hours-header">
+          <div class="restaurant-icon">
+              <i class="far fa-clock"></i>
+          </div>
+          <h3 class="restaurant-section-title">Hours</h3>
+          <p id="restaurant-today"></p>
+        </div>
+        <table id="restaurant-hours" aria-label="Available hours"></table>
+      </section>
+
+      <section id="reviews-container">
+          <div class="restaurant-icon">
+              <i class="fas fa-comment-alt"></i>
+          </div>
+          <h3 class="restaurant-section-title">Reviews</h3>
+          <ul id="reviews-list" aria-label="Customers' reviews"></ul>
+        </section>
+    </section>
+  </main>
+
+  <footer id="footer" area-label="footer">
+    Copyright (c) 2017 <a href="/"><strong>Restaurant Reviews</strong></a> All Rights Reserved.
+  </footer>
+
+  <!-- Scripts -->
+  <!-- SW Initialization-->
+  <script type="application/javascript" charset="utf-8" src="js/sw_init.js"></script>
+  <!-- Database helpers -->
+  <script type="text/javascript" src="js/dbhelper.js"></script>
+  <script type="application/javascript" charset="utf-8" src="node_modules/idb/lib/idb.js"></script>
+  <!-- Main javascript file -->
+  <script type="text/javascript" src="js/restaurant_info.js"></script>
+  <!-- Google Maps -->
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDut4PY7wqSrnsuqMx4khkdZxFLTelhe1k&libraries=places&callback=initMap"></script>
+  <!-- Icon font -->
+  <script defer src="https://use.fontawesome.com/releases/v5.0.9/js/all.js" integrity="sha384-8iPTk2s/jMVj81dnzb/iFR2sdA7u06vHJyyLlAd4snFpCl/SnyUjRrbdJsw1pGIl" crossorigin="anonymous"></script>
+</body>
+
+</html>

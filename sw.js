@@ -10,6 +10,7 @@ self.addEventListener('install', function (event) {
     'js/dbhelper.js',
     'js/main.js',
     'js/restaurant_info.js',
+    //'js/sw.js',
     'css/styles.css',
     'css/styles_medium.css',
     'css/styles_large.css',
@@ -23,7 +24,9 @@ self.addEventListener('install', function (event) {
     'img_sized/8-small.jpg',
     'img_sized/9-small.jpg',
     'img_sized/10-small.jpg',
-    'img/icon.png'
+    'img/icon.png',
+    'img/iconx600.png',
+    'img/placeholder.jpg'
   ];
 
   event.waitUntil(

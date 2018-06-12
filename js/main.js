@@ -171,22 +171,22 @@ createRestaurantHTML = (restaurant) => {
   /* Append source for large resolution */
   source = document.createElement('source');
   source.media = '(min-width: 625px)';
-  source.srcset = `/img_sized/${restaurant.id}-large.jpg 800w`;
+  source.srcset = `/dist/img/${restaurant.id}-large.webp 800w`;
   picture.append(source);
 
   /* Append source for medium resolution */
   source = document.createElement('source');
   source.media = '(min-width: 425px)';
-  source.srcset = `/img_sized/${restaurant.id}-medium.jpg 625w`;
+  source.srcset = `/dist/img/${restaurant.id}-medium.webp 625w`;
   picture.append(source);
 
   /* Append img for small resolution */
   const image = document.createElement('img');
-  image.setAttribute('src', 'img/placeholder.jpg');
+  image.setAttribute('src', '/dist/img/placeholder.jpg');
   image.className = 'restaurant-img lazy';
 
   //image.src = `/img_sized/${restaurant.id}-small.jpg`;
-  image.setAttribute('data-src', `/img_sized/${restaurant.id}-small.jpg`);
+  image.setAttribute('data-src', `/dist/img/${restaurant.id}-small.webp`);
 
   image.alt = restaurant.alt;
   picture.append(image);

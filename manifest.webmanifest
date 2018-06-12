@@ -1,0 +1,21 @@
+{
+    "name": "Restaurant Reviews",
+    "short_name": "Restaurant Reviews",
+    "dir": "ltr",
+    "lang": "en-US",
+    "start_url": "./index.html",
+    "display": "standalone",
+    "background_color": "#fff",
+    "theme_color": "#f18200",
+    "description": "The app that helps you find the restaurants by cuisine type in your neighborhoods.",
+    "icons": [{
+        "src": "img/icon.png",
+        "sizes": "69x64",
+        "type": "image/png"
+      },
+      {
+        "src": "img/iconx600.png",
+        "sizes": "600x600",
+        "type": "image/png"
+      }]
+  }

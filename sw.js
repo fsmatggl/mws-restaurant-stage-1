@@ -24,9 +24,20 @@ self.addEventListener('install', function (event) {
     'img_sized/8-small.jpg',
     'img_sized/9-small.jpg',
     'img_sized/10-small.jpg',
+    'dist/img/1-small.webp',
+    'dist/img/2-small.webp',
+    'dist/img/3-small.webp',
+    'dist/img/4-small.webp',
+    'dist/img/5-small.webp',
+    'dist/img/6-small.webp',
+    'dist/img/7-small.webp',
+    'dist/img/8-small.webp',
+    'dist/img/9-small.webp',
+    'dist/img/10-small.webp',
     'img/icon.png',
     'img/iconx600.png',
-    'img/placeholder.jpg'
+    'img/placeholder.jpg',
+    'https://fonts.googleapis.com/css?family=Open+Sans|Quicksand'
   ];
 
   event.waitUntil(

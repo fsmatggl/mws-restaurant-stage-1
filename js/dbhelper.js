@@ -3,7 +3,9 @@
  */
 class DBHelper {
 
-  retryQueue = [];
+  static constructor() {
+    this.retryQueue = [];
+  }
 
   /**
    * Restaurants URL.
@@ -269,5 +271,5 @@ window.addEventListener('online', () => {
     console.log(`Retrying request: /${request.config.method} ${request.url}`)
     fetch(request.url, request.config); 
   });
-  retryQueue = [];
+  DBHelper.retryQueue = [];
 });

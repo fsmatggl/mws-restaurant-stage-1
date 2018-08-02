@@ -185,7 +185,6 @@ createRestaurantHTML = (restaurant) => {
   image.setAttribute('src', '/dist/img/placeholder.jpg');
   image.className = 'restaurant-img lazy';
 
-  //image.src = `/img_sized/${restaurant.id}-small.jpg`;
   image.setAttribute('data-src', `/dist/img/${restaurant.id}-small.webp`);
 
   image.alt = restaurant.alt;
@@ -196,6 +195,24 @@ createRestaurantHTML = (restaurant) => {
   const name = document.createElement('h1');
   name.innerHTML = restaurant.name;
   li.append(name);
+
+  const favorite = document.createElement('button');
+  if (restaurant.is_favorite) {
+    favorite.innerHTML = `<i class="material-icons">star</i>`;
+  } else {
+    favorite.innerHTML = `<i class="material-icons">star_border</i>`;
+  }
+  favorite.onclick = () => {
+    if (restaurant.is_favorite) {
+      favorite.innerHTML = `<i class="material-icons">star_border</i>`;
+      restaurant.is_favorite = false;
+    } else {
+      favorite.innerHTML = `<i class="material-icons">star</i>`;
+      restaurant.is_favorite = true;
+    }
+    DBHelper.updateRestaurant(restaurant);
+  }
+  li.append(favorite);
 
   const neighborhood = document.createElement('p');
   neighborhood.innerHTML = restaurant.neighborhood;

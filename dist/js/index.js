@@ -7,10 +7,8 @@ class DBHelper {
    * Database URL.
    * Change this to restaurants.json file location on your server.
    */
-  static get DATABASE_URL() {
-    // const port = 8000 // Change this to your server port
+  static get RESTAURANTS_URL() {
     const port = 1337; // Node server
-    // return `http://localhost:${port}/data/restaurants.json`;
     return `http://localhost:${port}/restaurants`;
   }
 
@@ -73,7 +71,7 @@ class DBHelper {
         if (restaurants.length === 0) {
           console.log('No restaurants data found in the database. Requesting data from the server');
           /* Retrieve data from the server */
-          fetch(DBHelper.DATABASE_URL).then(response => {
+          fetch(DBHelper.RESTAURANTS_URL).then(response => {
             if (response.status === 200) {
               // Got a success response from server!
               console.log('Successfully retrieved restaurant data');

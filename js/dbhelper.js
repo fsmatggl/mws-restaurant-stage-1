@@ -3,15 +3,23 @@
  */
 class DBHelper {
 
+  retryQueue = [];
+
   /**
-   * Database URL.
-   * Change this to restaurants.json file location on your server.
+   * Restaurants URL.
    */
-  static get DATABASE_URL() {
-    // const port = 8000 // Change this to your server port
+  static get RESTAURANTS_URL() {
     const port = 1337 // Node server
-    // return `http://localhost:${port}/data/restaurants.json`;
     return `http://localhost:${port}/restaurants`;
+  }
+
+  /**
+   * Reviews URL.
+   */
+  static get REVIEWS_URL() {
+    const port = 1337 // Node server
+    return `http://localhost:${port}/reviews`;
+    
   }
 
   /**
@@ -73,7 +81,7 @@ class DBHelper {
         if (restaurants.length === 0) {
           console.log('No restaurants data found in the database. Requesting data from the server');
           /* Retrieve data from the server */
-          fetch(DBHelper.DATABASE_URL).then( response => {
+          fetch(DBHelper.RESTAURANTS_URL).then( response => {
             if (response.status === 200) { // Got a success response from server!
               console.log('Successfully retrieved restaurant data')
               response.json().then(function(data) {
@@ -231,4 +239,34 @@ class DBHelper {
     return marker;
   }
 
+  static updateRestaurant(restaurant) {
+    /* Open the IDB database */
+    console.log(`Updating restaurant (${restaurant.id}) data`);
+    let dbPromise = DBHelper.openDatabase();
+    dbPromise.then(db => {
+      let tx = db.transaction(DBHelper.IDB_RESTAURANT_STORE_NAME, 'readwrite');
+      let restaurantsStore = tx.objectStore(DBHelper.IDB_RESTAURANT_STORE_NAME);
+
+      restaurantsStore.put(restaurant, restaurant.id);
+    });
+
+    const url = `http://localhost:1337/restaurants/${restaurant.id}/?is_favorite=${restaurant.is_favorite}`;
+    const config = {method: 'PUT'};
+    fetch(url, config).catch(() => {
+      /* If it wasn't possible to update the server, try again later  */
+      retry({url: url, config: config});
+    });
+  }
+
+  static retry(request) {
+    retryQueue.push(request);
+  }
 }
+
+window.addEventListener('online', () => {
+  console.log('Back online again')
+  retryQueue.forEach((request) => {
+    console.log(`Retrying request: /${request.config.method} ${request.url}`)
+    fetch(request.url, request.config); 
+  }); 
+});

@@ -268,5 +268,6 @@ window.addEventListener('online', () => {
   retryQueue.forEach((request) => {
     console.log(`Retrying request: /${request.config.method} ${request.url}`)
     fetch(request.url, request.config); 
-  }); 
+  });
+  retryQueue = [];
 });

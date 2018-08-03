@@ -90,7 +90,13 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
     fillRestaurantHoursHTML();
   }
   // fill reviews
-  fillReviewsHTML();
+  DBHelper.getReviewsByRestaurantId(restaurant.id, (error, reviews) => {
+    if (!reviews) {
+      console.error(error);
+      return;
+    }
+    fillReviewsHTML(reviews);
+  });
 }
 
 /**
@@ -136,7 +142,7 @@ addRestaurantHoursTodayDay = () => {
 /**
  * Create all reviews HTML and add them to the webpage.
  */
-fillReviewsHTML = (reviews = self.restaurant.reviews) => {
+fillReviewsHTML = (reviews) => {
   const container = document.getElementById('reviews-container');
 
   if (!reviews) {
@@ -161,9 +167,11 @@ createReviewHTML = (review) => {
   name.innerHTML = review.name;
   li.appendChild(name);
 
-  const date = document.createElement('p');
-  date.innerHTML = review.date;
-  li.appendChild(date);
+  const dateElement = document.createElement('p');
+  const date = new Date(review.createdAt);
+  const dateString = `${date.getHours()}:${date.getMinutes()} - ${date.getDay()}/${date.getMonth()}/${date.getFullYear()}`;
+  dateElement.innerHTML = dateString;
+  li.appendChild(dateElement);
 
   const rating = document.createElement('p');
   rating.innerHTML = `Rating: ${review.rating}`;

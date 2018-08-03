@@ -34,8 +34,18 @@ class DBHelper {
   /**
    * IndexedDB Database restaurant storage name
    */
-  static get IDB_RESTAURANT_STORE_NAME() {
+  static get IDB_RESTAURANTS_STORE_NAME() {
     return 'restaurants';
+  }
+  /**
+   * IndexedDB database review storage name
+   */
+  static get IDB_REVIEWS_STORE_NAME() {
+    return 'reviews';
+  }
+
+  static get IDB_REVIEWS_STORE_RESTAURANT_ID_INDEX() {
+    return 'restaurantId';
   }
 
   /**
@@ -47,7 +57,12 @@ class DBHelper {
       switch(upgradeDb.oldVersion) {
         case 0:
           console.log('created object store restaurants');
-          upgradeDb.createObjectStore(DBHelper.IDB_RESTAURANT_STORE_NAME);
+          upgradeDb.createObjectStore(DBHelper.IDB_RESTAURANTS_STORE_NAME);
+          console.log('created object store reviews');
+          upgradeDb.createObjectStore(DBHelper.IDB_REVIEWS_STORE_NAME);
+          /* Create an index to later retrieve the data ordered by such index */
+          var reviewsStore = upgradeDb.transaction.objectStore(DBHelper.IDB_REVIEWS_STORE_NAME);
+          reviewsStore.createIndex(DBHelper.IDB_REVIEWS_STORE_RESTAURANT_ID_INDEX, 'restaurantId');
       }
     });
   };
@@ -55,15 +70,15 @@ class DBHelper {
   /**
    * Save restaurants data in the IDB database
    */
-  static saveData(restaurants) {
-    console.log('Saving data');
+  static saveData(items, storeName) {
+    console.log(`Saving data in ${storeName}`);
     let dbPromise = DBHelper.openDatabase();
     dbPromise.then(db => {
-      let tx = db.transaction(DBHelper.IDB_RESTAURANT_STORE_NAME, 'readwrite');
-      let restaurantsStore = tx.objectStore(DBHelper.IDB_RESTAURANT_STORE_NAME);
+      let tx = db.transaction(storeName, 'readwrite');
+      let itemStore = tx.objectStore(storeName);
 
-      restaurants.forEach((restaurant) => {
-        restaurantsStore.put(restaurant, restaurant.id);
+      items.forEach((item) => {
+        itemStore.put(item, item.id);
       });
     });
   }
@@ -76,19 +91,19 @@ class DBHelper {
     let dbPromise = DBHelper.openDatabase();
     dbPromise.then(db => {
       /* Open transaction to retrieve restaurants */
-      let tx = db.transaction(DBHelper.IDB_RESTAURANT_STORE_NAME, 'readwrite');
-      let restaurantsStore = tx.objectStore(DBHelper.IDB_RESTAURANT_STORE_NAME);
+      let tx = db.transaction(DBHelper.IDB_RESTAURANTS_STORE_NAME, 'readwrite');
+      let restaurantsStore = tx.objectStore(DBHelper.IDB_RESTAURANTS_STORE_NAME);
       let restaurants = restaurantsStore.getAll().then((restaurants) => {
         /* There are no restaurants in the database */
         if (restaurants.length === 0) {
           console.log('No restaurants data found in the database. Requesting data from the server');
           /* Retrieve data from the server */
-          fetch(DBHelper.RESTAURANTS_URL).then( response => {
+          fetch(DBHelper.RESTAURANTS_URL).then(response => {
             if (response.status === 200) { // Got a success response from server!
               console.log('Successfully retrieved restaurant data')
               response.json().then(function(data) {
                 /* Save data in IDB */
-                DBHelper.saveData(data);
+                DBHelper.saveData(data, DBHelper.IDB_RESTAURANTS_STORE_NAME);
                 callback(null, data);
               });
             } else { // Oops!. Got an error from server.
@@ -102,7 +117,7 @@ class DBHelper {
           callback(null, restaurants);
         }
       });
-    }) 
+    })
   }
 
   /**
@@ -246,8 +261,8 @@ class DBHelper {
     console.log(`Updating restaurant (${restaurant.id}) data`);
     let dbPromise = DBHelper.openDatabase();
     dbPromise.then(db => {
-      let tx = db.transaction(DBHelper.IDB_RESTAURANT_STORE_NAME, 'readwrite');
-      let restaurantsStore = tx.objectStore(DBHelper.IDB_RESTAURANT_STORE_NAME);
+      let tx = db.transaction(DBHelper.IDB_RESTAURANTS_STORE_NAME, 'readwrite');
+      let restaurantsStore = tx.objectStore(DBHelper.IDB_RESTAURANTS_STORE_NAME);
 
       restaurantsStore.put(restaurant, restaurant.id);
     });
@@ -262,6 +277,45 @@ class DBHelper {
 
   static retry(request) {
     retryQueue.push(request);
+  }
+
+  static getReviewsByRestaurantId(restaurantId, callback) {
+    let reviews = [];
+    let url = `http://localhost:1337/reviews?restaurant_id=${restaurantId}`;
+    /* Open the IDB database */
+    let dbPromise = DBHelper.openDatabase();
+    dbPromise.then(db => {
+      /* Open transaction to retrieve restaurants */
+      let tx = db.transaction(DBHelper.IDB_REVIEWS_STORE_NAME, 'readwrite');
+      let reviewsStore = tx.objectStore(DBHelper.IDB_REVIEWS_STORE_NAME);
+      let reviewsRestaurandIdIndex = reviewsStore.index(DBHelper.IDB_REVIEWS_STORE_RESTAURANT_ID_INDEX);
+      /* Get reviews by restaurant ID */
+      reviews = reviewsRestaurandIdIndex.getAll().then((reviews) => {
+        /* There are no restaurants in the database */
+        if (reviews.length === 0) {
+          console.log('No reviews data found in the database. Requesting data from the server');
+          /* Retrieve data from the server */
+          fetch(url).then(response => {
+            if (response.status === 200) { // Got a success response from server!
+              console.log(`Successfully retrieved restaurand (${restaurantId}) reviews`);
+              response.json().then(function(data) {
+                /* Save data in IDB */
+                DBHelper.saveData(data, DBHelper.IDB_REVIEWS_STORE_NAME);
+                callback(null, data);
+              });
+            } else { // Oops!. Got an error from server.
+              const error = (`Request failed. Returned status of ${response.status}`);
+              callback(error, null);
+            }
+          });
+        } else {
+          /* Restaurants found in the IDB */
+          console.log('Using reviews data found in IDB database');
+          callback(null, reviews);
+        }
+      });
+    })
+    return reviews;
   }
 }
 

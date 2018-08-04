@@ -103,16 +103,19 @@ window.initMap = () => {
   /* Wait until the map is fully loaded and remove iframe tabindex */
   const listener = self.map.addListener('tilesloaded', () => {
     removeMapsElementFocusAndSetAria();
-    google.maps.event.removeListener(listener)
+    google.maps.event.removeListener(listener);
   });
-
-  updateRestaurants();
 }
 
 /**
  * Update page and map for current restaurants.
  */
 updateRestaurants = () => {
+  const doSearchMessage = document.getElementById('do-search-container');
+  if (!doSearchMessage.classList.contains('hidden')) {
+    doSearchMessage.classList.add('hidden');
+  }
+
   const cSelect = document.getElementById('cuisines-select');
   const nSelect = document.getElementById('neighborhoods-select');
 
@@ -234,6 +237,9 @@ createRestaurantHTML = (restaurant) => {
  * Add markers for current restaurants to the map.
  */
 addMarkersToMap = (restaurants = self.restaurants) => {
+  if (!restaurants) return;
+  if (!self.map) return;
+  
   restaurants.forEach(restaurant => {
     // Add marker to the map
     const marker = DBHelper.mapMarkerForRestaurant(restaurant, self.map);
@@ -262,4 +268,19 @@ removeMapsElementFocusAndSetAria = () => {
     area.setAttribute('tabindex', '-1');
     area.setAttribute('aria-hidden', 'true');
   }
+}
+
+swapMap = () => {
+  console.log('Swapping to dynamic map');
+  if (document.getElementById('map').classList.contains('hidden-height')) {
+    document.getElementById('map').classList.remove('hidden-height');
+    document.getElementById('map').classList.add('map');
+    addMarkersToMap();
+  }
+}
+
+search = () => {
+  updateRestaurants();
+  swapMap();
+  addMarkersToMap();
 }

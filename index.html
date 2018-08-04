@@ -32,22 +32,32 @@
   </header>
 
   <main id="maincontent">
-    <section id="map-container">
-      <div id="map" aria-label="Google Maps" role="application"></div>
-    </section>
-
     <section id="filter">
       <div class="filter-options">
         <h2>Filter Results</h2>
-        <select id="neighborhoods-select" aria-label="Neighborhoods" onchange="updateRestaurants()">
+        <select id="neighborhoods-select" aria-label="Neighborhoods">
           <option value="all">All Neighborhoods</option>
         </select>
-        <select id="cuisines-select" aria-label="Cuisines" onchange="updateRestaurants()">
+        <select id="cuisines-select" aria-label="Cuisines">
           <option value="all">All Cuisines</option>
         </select>
+        <div class="filter-search-container">
+            <button class="filter-search" onclick="search()">Search</button>
+        </div>
       </div>
-      <ul id="restaurants-list" aria-label="Restaurant list"></ul>
     </section>
+
+    <div id="do-search-container">
+        <p id="do-search">
+          Search your favorite restaurants by your neighborhood and cuisine type!
+        </p>
+    </div>
+
+    <section id="map-container">
+      <div id="map" aria-label="Google Maps" role="application" class="hidden-height"></div>
+    </section>
+
+    <ul id="restaurants-list" aria-label="Restaurant list"></ul>
   </main>
 
   <style>
@@ -216,7 +226,9 @@ video {
   background-color: #444;
   color: #b3b3b3;
   font-size: 8pt;
-  letter-spacing: 1px;
+  letter-spacing: 3px;
+  word-spacing: 7px;
+  text-align: center;
   padding: 25px 0;
   text-align: center;
   text-transform: uppercase;
@@ -283,8 +295,20 @@ nav h1 a {
 }
 
 #map {
-  height: 400px;
+  /* height: 400px; */
   background-color: #ccc;
+}
+
+.map {
+  height: 400px;
+  transition: height 0.3s ease;
+}
+.hidden-height {
+  height: 0px;
+}
+
+.hidden {
+  display: none;
 }
 
 /* ====================== Restaurant Filtering ====================== */
@@ -316,8 +340,41 @@ nav h1 a {
 }
 
 #neighborhoods-select:focus,
-#cuisines-select:focus {
+#cuisines-select:focus,
+.filter-search:focus {
   border: 3px solid #252831;
+}
+
+.filter-search {
+  color: #000;
+  text-transform: uppercase;
+  padding: 13px 30px;
+  margin: 0px 10px;
+  background-color: #fff;
+  border: none;
+  font-family: "Open Sans", sans-serif;
+  font-size: 1rem;
+  line-height: 1.2rem;
+  cursor: pointer;
+  left: 20px;
+}
+
+.filter-search-container {
+  padding: 20px 20px 10px;
+}
+
+#do-search-container {
+  padding: 90px 20px;
+  margin: auto;
+}
+
+#do-search {
+  text-align: center;
+  letter-spacing: 0.5px;
+  word-spacing: 7px;
+  font-size: 1.3rem;
+  line-height: 1.7rem;
+  font-family: "Open Sans", sans-serif;
 }
 
 /* ====================== Restaurant Listing ====================== */

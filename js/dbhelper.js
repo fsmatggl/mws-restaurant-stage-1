@@ -1,11 +1,9 @@
+let retryQueue = [];
+
 /**
  * Common database helper functions.
  */
 class DBHelper {
-
-  static constructor() {
-    this.retryQueue = [];
-  }
 
   /**
    * Restaurants URL.
@@ -289,8 +287,7 @@ class DBHelper {
       let reviewsStore = tx.objectStore(DBHelper.IDB_REVIEWS_STORE_NAME);
       let reviewsRestaurantIdIndex = reviewsStore.index(DBHelper.IDB_REVIEWS_STORE_RESTAURANT_ID_INDEX);
       /* Get reviews by restaurant ID */
-      reviewsRestaurantIdIndex.getAll().then((reviews) => {
-        console.log(reviews);
+      reviewsRestaurantIdIndex.getAll(restaurantId).then((reviews) => {
         /* There are no restaurants in the database */
         if (reviews.length === 0) {
           console.log('No reviews data found in the database. Requesting data from the server');
@@ -326,8 +323,9 @@ class DBHelper {
       body: review
     };
     fetch(url, config).catch(() => {
+      console.log(`Could not perform the following request, will retry later: /${config.method} ${url}`);
       /* If it wasn't possible to update the server, try again later  */
-      retry({url: url, config: config});
+      DBHelper.retry({url: url, config: config});
     });
   }
 }
@@ -336,9 +334,9 @@ window.addEventListener('online', () => {
   console.log('Back online again')
   retryQueue.forEach((request) => {
     console.log(`Retrying request: /${request.config.method} ${request.url}`)
-    fetch(request.url, request.config); 
+    fetch(request.url, request.config);
   });
-  DBHelper.retryQueue = [];
+  retryQueue = [];
 });
 
 window.addEventListener('offline', () => {

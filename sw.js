@@ -1,16 +1,15 @@
-var staticCacheName = 'restaurant-reviews-v1';
+let staticCacheName = 'restaurant-reviews-v1';
 
 /* Initialize the cache on SW install */
 self.addEventListener('install', function (event) {
   /* Array of requests to put in the cache */
-  var urlsToCache = [
+  let urlsToCache = [
     '/',
     '/index.html',
     '/restaurant.html',
     'js/dbhelper.js',
     'js/main.js',
     'js/restaurant_info.js',
-    //'js/sw.js',
     'css/styles.css',
     'css/styles_medium.css',
     'css/styles_large.css',
@@ -34,10 +33,15 @@ self.addEventListener('install', function (event) {
     'dist/img/8-small.webp',
     'dist/img/9-small.webp',
     'dist/img/10-small.webp',
+    'dist/img/placeholder.jpg',
     'img/icon.png',
     'img/iconx600.png',
     'img/placeholder.jpg',
-    'https://fonts.googleapis.com/css?family=Open+Sans|Quicksand'
+    'https://fonts.googleapis.com/css?family=Open+Sans|Quicksand',
+    'css/fonts/md-icons/MaterialIcons-Regular.eot',
+    'css/fonts/md-icons/MaterialIcons-Regular.ttf',
+    'css/fonts/md-icons/MaterialIcons-Regular.woff',
+    'css/fonts/md-icons/MaterialIcons-Regular.woff2'
   ];
 
   event.waitUntil(

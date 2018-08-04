@@ -17,7 +17,7 @@ gulp.task('copy-html', function() {
 });
 
 gulp.task('copy-images', function() {
-    gulp.src('img_sized/*')
+    gulp.src('img/*')
     .pipe(imagemin({
         progressive: true,
         use: [pngquant()]

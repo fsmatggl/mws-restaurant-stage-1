@@ -76,7 +76,28 @@
           </div>
           <h3 class="restaurant-section-title">Reviews</h3>
           <ul id="reviews-list" aria-label="Customers' reviews"></ul>
-        </section>
+      </section>
+      <section id="reviews-form-section">
+        <div id="reviews-form-container">
+          <h4>Add a new Review</h4>
+            <form id="reviews-form" class="reviews-form" action="javascript:;" onsubmit="saveReview()">
+              <div class="form-group">
+                  <label>Name</label>
+                  <input id="form-name" type="text" placeholder="Insert your name" name="name" required>
+              </div>
+              <div class="form-group">
+                  <label>Rating</label>
+                  <input id="form-rating" type="number" placeholder="From 1 to 5, how good is this place?" name="rating" min="1" max="5" required>
+              </div>
+              <div class="form-group">
+                  <label>Comments</label>
+                  <textarea id="form-comments" placeholder="Insert any additional feedback" name="comments"></textarea>
+              </div>
+
+              <button class="submit">Send</button>
+            </form>
+        </div>
+      </section>
     </section>
   </main>
 

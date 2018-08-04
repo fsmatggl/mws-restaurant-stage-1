@@ -143,6 +143,7 @@ addRestaurantHoursTodayDay = () => {
  * Create all reviews HTML and add them to the webpage.
  */
 fillReviewsHTML = (reviews) => {
+  console.log(reviews);
   const container = document.getElementById('reviews-container');
 
   if (!reviews) {
@@ -228,4 +229,28 @@ removeMapsElementFocusAndSetAria = () => {
     area.setAttribute('tabindex', '-1');
     area.setAttribute('aria-hidden', 'true');
   }
+}
+
+saveReview = () => {
+  let form = new FormData(document.getElementById('reviews-form'));
+  
+  let date = Date.now();
+  let review = {};
+  review.restaurant_id = self.restaurant.id;
+  review.name = form.get('name');
+  review.rating = form.get('rating');
+  review.comments = form.get('comments');
+  review.updatedAt = date;
+  review.createdAt = date;
+
+  console.log('review')
+
+  DBHelper.saveReview([review]);
+
+  const ul = document.getElementById('reviews-list');
+  ul.appendChild(createReviewHTML(review));
+
+  document.getElementById('form-name').value='';
+  document.getElementById('form-rating').value='';
+  document.getElementById('form-comments').value='';
 }

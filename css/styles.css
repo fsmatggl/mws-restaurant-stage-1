@@ -156,6 +156,7 @@ nav h1 a {
 }
 
 .breadcrumb-container {
+  min-width: 290px;
   padding: 15px 0 15px 30px;
   background-color: #eee;
 }
@@ -390,4 +391,60 @@ tr:nth-child(even) {
 
 #reviews-list li p {
   margin: 0 0 10px;
+}
+
+#reviews-form-section {
+  width: 100%;
+  padding: 30px;
+  background-color: #fff;
+}
+
+#reviews-form-container {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  justify-content: center;
+  margin: auto;
+}
+
+#reviews-form-container {
+  text-align: center;
+}
+
+.reviews-form {
+  margin: auto;
+}
+
+.form-group {
+  display: block;
+  margin: 20px;
+}
+
+.form-group input,
+.form-group textarea {
+  display: block;
+  margin: 5px 0;
+  width: 280px;
+  height: 30px;
+}
+
+.form-group textarea {
+  resize:vertical;
+  height: 70px;
+}
+
+.submit {
+  color: #fff;
+  text-transform: uppercase;
+  padding: 13px 30px;
+  background-color: #a55902;
+  border: none;
+  font-family: "Open Sans", sans-serif;
+  font-size: 1rem;
+  line-height: 1.2rem;
+  cursor: pointer;
+}
+
+.submit:focus {
+  border: 3px solid #252831;
 }

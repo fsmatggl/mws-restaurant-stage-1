@@ -45,7 +45,7 @@ class DBHelper {
   }
 
   static get IDB_REVIEWS_STORE_RESTAURANT_ID_INDEX() {
-    return 'restaurantId';
+    return 'restaurant_id';
   }
 
   /**
@@ -59,10 +59,10 @@ class DBHelper {
           console.log('created object store restaurants');
           upgradeDb.createObjectStore(DBHelper.IDB_RESTAURANTS_STORE_NAME);
           console.log('created object store reviews');
-          upgradeDb.createObjectStore(DBHelper.IDB_REVIEWS_STORE_NAME);
+          upgradeDb.createObjectStore(DBHelper.IDB_REVIEWS_STORE_NAME, {autoIncrement:true});
           /* Create an index to later retrieve the data ordered by such index */
           var reviewsStore = upgradeDb.transaction.objectStore(DBHelper.IDB_REVIEWS_STORE_NAME);
-          reviewsStore.createIndex(DBHelper.IDB_REVIEWS_STORE_RESTAURANT_ID_INDEX, 'restaurantId');
+          reviewsStore.createIndex(DBHelper.IDB_REVIEWS_STORE_RESTAURANT_ID_INDEX, DBHelper.IDB_REVIEWS_STORE_RESTAURANT_ID_INDEX);
       }
     });
   };
@@ -280,7 +280,6 @@ class DBHelper {
   }
 
   static getReviewsByRestaurantId(restaurantId, callback) {
-    let reviews = [];
     let url = `http://localhost:1337/reviews?restaurant_id=${restaurantId}`;
     /* Open the IDB database */
     let dbPromise = DBHelper.openDatabase();
@@ -288,9 +287,10 @@ class DBHelper {
       /* Open transaction to retrieve restaurants */
       let tx = db.transaction(DBHelper.IDB_REVIEWS_STORE_NAME, 'readwrite');
       let reviewsStore = tx.objectStore(DBHelper.IDB_REVIEWS_STORE_NAME);
-      let reviewsRestaurandIdIndex = reviewsStore.index(DBHelper.IDB_REVIEWS_STORE_RESTAURANT_ID_INDEX);
+      let reviewsRestaurantIdIndex = reviewsStore.index(DBHelper.IDB_REVIEWS_STORE_RESTAURANT_ID_INDEX);
       /* Get reviews by restaurant ID */
-      reviews = reviewsRestaurandIdIndex.getAll().then((reviews) => {
+      reviewsRestaurantIdIndex.getAll().then((reviews) => {
+        console.log(reviews);
         /* There are no restaurants in the database */
         if (reviews.length === 0) {
           console.log('No reviews data found in the database. Requesting data from the server');
@@ -315,7 +315,20 @@ class DBHelper {
         }
       });
     })
-    return reviews;
+  }
+
+  static saveReview(review) {
+    DBHelper.saveData(review, DBHelper.IDB_REVIEWS_STORE_NAME);
+
+    const url = `http://localhost:1337/reviews`;
+    const config = {
+      method: 'POST',
+      body: review
+    };
+    fetch(url, config).catch(() => {
+      /* If it wasn't possible to update the server, try again later  */
+      retry({url: url, config: config});
+    });
   }
 }
 
@@ -326,4 +339,8 @@ window.addEventListener('online', () => {
     fetch(request.url, request.config); 
   });
   DBHelper.retryQueue = [];
+});
+
+window.addEventListener('offline', () => {
+  window.alert('You have lost connection');
 });

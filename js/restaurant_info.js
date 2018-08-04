@@ -170,7 +170,7 @@ createReviewHTML = (review) => {
 
   const dateElement = document.createElement('p');
   const date = new Date(review.createdAt);
-  const dateString = `${date.getHours()}:${date.getMinutes()} - ${date.getDay()}/${date.getMonth()}/${date.getFullYear()}`;
+  const dateString = `${date.getDay()}/${date.getMonth()}/${date.getFullYear()}`;
   dateElement.innerHTML = dateString;
   li.appendChild(dateElement);
 

@@ -1,87 +1,80 @@
-let staticCacheName = 'restaurant-reviews-v1';
+importScripts('https://storage.googleapis.com/workbox-cdn/releases/3.4.1/workbox-sw.js');
 
-/* Initialize the cache on SW install */
-self.addEventListener('install', function (event) {
-  /* Array of requests to put in the cache */
-  let urlsToCache = [
-    '/',
-    '/index.html',
-    '/restaurant.html',
-    'js/dbhelper.js',
-    'js/main.js',
-    'js/restaurant_info.js',
-    'css/styles.css',
-    'css/styles_medium.css',
-    'css/styles_large.css',
-    'img_sized/1-small.jpg',
-    'img_sized/2-small.jpg',
-    'img_sized/3-small.jpg',
-    'img_sized/4-small.jpg',
-    'img_sized/5-small.jpg',
-    'img_sized/6-small.jpg',
-    'img_sized/7-small.jpg',
-    'img_sized/8-small.jpg',
-    'img_sized/9-small.jpg',
-    'img_sized/10-small.jpg',
-    'dist/img/1-small.webp',
-    'dist/img/2-small.webp',
-    'dist/img/3-small.webp',
-    'dist/img/4-small.webp',
-    'dist/img/5-small.webp',
-    'dist/img/6-small.webp',
-    'dist/img/7-small.webp',
-    'dist/img/8-small.webp',
-    'dist/img/9-small.webp',
-    'dist/img/10-small.webp',
-    'dist/img/placeholder.jpg',
-    'img/icon.png',
-    'img/iconx600.png',
-    'img/placeholder.jpg',
-    'https://fonts.googleapis.com/css?family=Open+Sans|Quicksand',
-    'css/fonts/md-icons/MaterialIcons-Regular.eot',
-    'css/fonts/md-icons/MaterialIcons-Regular.ttf',
-    'css/fonts/md-icons/MaterialIcons-Regular.woff',
-    'css/fonts/md-icons/MaterialIcons-Regular.woff2'
-  ];
+if (workbox) {
+  console.log(`Workbox is loaded`);
+} else {
+  console.log(`Workbox didn't load`);
+}
 
-  event.waitUntil(
-    /* Open a new cache */
-    caches.open(staticCacheName).then(function (cache) {
-      /* Store the urls and return addAll's promise */
-      return cache.addAll(urlsToCache);
-    })
-  );
-});
+workbox.precaching.precacheAndRoute([]);
 
-self.addEventListener('activate', function (event) {
-  event.waitUntil(
-    /* Retrieve all the caches' name */
-    caches.keys().then(function (cacheNames) {
-      /* Wait for the execution of every promise */
-      return Promise.all(
-        /* Filter the names */
-        cacheNames.filter(function (cacheName) {
-          /* Only return those starting with "wittr-" and is not the current cache */
-          return cacheName.startsWith('restaurant-reviews-') &&
-            cacheName != staticCacheName;
-        }).map(function (cacheName) {
-          /* Delete each of those caches */
-          return cache.delete(cacheName);
-        })
-      );
-    })
-  );
-});
+workbox.precaching.precacheAndRoute([
+  'index.html',
+  'restaurant.html',
+  'js/main.js',
+  'js/restaurant_info.js',
+  'js/dbhelper.js',
+  'js/idb.js',
+  'css/styles_medium.css',
+  'css/styles_large.css',
+  'css/fonts/md-icons/MaterialIcons-Regular.ttf',
+  'css/fonts/Quicksand/Quicksand-Bold.ttf',
+  'css/fonts/Quicksand/Quicksand-Light.ttf',
+  'css/fonts/Quicksand/Quicksand-Medium.ttf',
+  'css/fonts/Quicksand/Quicksand-Regular.ttf'
+]);
 
+workbox.routing.registerRoute(
+  // Cache JS files
+  /.*\.js/,
+  workbox.strategies.cacheFirst({
+    // Use a custom cache name
+    cacheName: 'js-cache',
+  })
+);
 
-self.addEventListener('fetch', function (event) {
-  event.respondWith(
-    /* Look for a match in the cache */
-    caches.match(event.request).then(function (response) {
-      /* Respond with the cached response if there's a match */
-      if (response) return response;
-      /* If there's no match, response will be falsy and original fetch should be done */
-      return fetch(event.request);
-    })
-  );
-});
+workbox.routing.registerRoute(
+  // Cache HTML files
+  /.*\.html/,
+  // Use cache but update in the background ASAP
+  workbox.strategies.cacheFirst({
+    // Use a custom cache name
+    cacheName: 'html-cache',
+  })
+);
+
+workbox.routing.registerRoute(
+  // Cache CSS files
+  /.*\.css/,
+  // Use cache but update in the background ASAP
+  workbox.strategies.cacheFirst({
+    // Use a custom cache name
+    cacheName: 'css-cache',
+  })
+);
+
+workbox.routing.registerRoute(
+  // Cache Fonts files
+  /fonts/,
+  // Use cache but update in the background ASAP
+  workbox.strategies.cacheFirst({
+    // Use a custom cache name
+    cacheName: 'fonts-cache',
+  })
+);
+
+workbox.routing.registerRoute(
+  // Cache image files
+  /.*\.(?:png|jpg|jpeg|svg|gif)/,
+  // Use the cache if it's available
+  workbox.strategies.cacheFirst({
+    // Use a custom cache name
+    cacheName: 'image-cache',
+    plugins: [
+      new workbox.expiration.Plugin({
+        // Cache for a maximum of a week
+        maxAgeSeconds: 7 * 24 * 60 * 60,
+      })
+    ],
+  })
+);

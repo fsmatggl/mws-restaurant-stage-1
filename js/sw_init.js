@@ -1,4 +1,9 @@
 /* Register service worker */
 if (navigator.serviceWorker) {
-    navigator.serviceWorker.register('/sw.js');
+    // Use the window load event to keep the page load performant
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js');
+    });
+} else {
+    console.log('serviceWorker not found')
 }

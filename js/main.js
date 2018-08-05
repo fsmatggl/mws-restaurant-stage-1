@@ -200,17 +200,19 @@ createRestaurantHTML = (restaurant) => {
   li.append(name);
 
   const favorite = document.createElement('button');
+  favorite.style.color = '#a55902';
+  favorite.style.cursor = 'pointer';
   if (restaurant.is_favorite) {
-    favorite.innerHTML = `<i class="material-icons">star</i>`;
+    favorite.innerHTML = `<i class="material-icons">star</i><p class="favorite-text">You like this restaurant!</p>`;
   } else {
-    favorite.innerHTML = `<i class="material-icons">star_border</i>`;
+    favorite.innerHTML = `<i class="material-icons">star_border</i><p class="favorite-text">Mark as favorite!</p>`;
   }
   favorite.onclick = () => {
     if (restaurant.is_favorite) {
-      favorite.innerHTML = `<i class="material-icons">star_border</i>`;
+      favorite.innerHTML = `<i class="material-icons">star_border</i><p class="favorite-text">Mark as favorite!</p>`;
       restaurant.is_favorite = false;
     } else {
-      favorite.innerHTML = `<i class="material-icons">star</i>`;
+      favorite.innerHTML = `<i class="material-icons">star</i><p class="favorite-text">You like this restaurant!</p>`;
       restaurant.is_favorite = true;
     }
     DBHelper.updateRestaurant(restaurant);

@@ -77,6 +77,10 @@ class DBHelper {
       let itemStore = tx.objectStore(storeName);
 
       items.forEach((item) => {
+        if (item.restaurant_id) {
+          console.log('Casting restaurant_id to number');
+          item.restaurant_id = Number(item.restaurant_id);
+        }
         itemStore.put(item, item.id);
       });
     });
@@ -383,7 +387,7 @@ window.addEventListener('online', () => {
   retryQueue.forEach((request) => {
     console.log(`Retrying request: /${request.config.method} ${request.url}`)
     fetch(request.url, request.config)
-    .then(DBHelper.refreshRestaurantReviews(config))
+    .then(DBHelper.refreshRestaurantReviews(request.config))
     .catch(() => {
       newQueue.push(request);
     });

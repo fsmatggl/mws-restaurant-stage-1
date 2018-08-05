@@ -78,7 +78,6 @@ class DBHelper {
 
       items.forEach((item) => {
         if (item.restaurant_id) {
-          console.log('Casting restaurant_id to number');
           item.restaurant_id = Number(item.restaurant_id);
         }
         itemStore.put(item, item.id);
@@ -330,8 +329,6 @@ class DBHelper {
           console.error(error);
           return;
         }
-        console.log('Refreshed the following restaurant ${restaurandId} IDB reviews');
-        console.log(reviews);
       });
     }
   }
@@ -348,7 +345,6 @@ class DBHelper {
     })
     .then(function iterate(cursor) {
       if (!cursor) return;
-      console.log('Cursored at:', cursor.value.name);
       if (cursor.value.restaurant_id === restaurant_id) {
         cursor.delete();
       }

@@ -11,7 +11,6 @@ if ("IntersectionObserver" in window) {
     entries.forEach(function(entry) {
       if (entry.isIntersecting) {
         let lazyImage = entry.target;
-        console.log(lazyImage);
         lazyImage.src = lazyImage.getAttribute('data-src');
         //lazyImage.srcset = lazyImage.dataset.srcset;
         lazyImage.classList.remove("lazy");
@@ -189,8 +188,8 @@ createRestaurantHTML = (restaurant) => {
   image.className = 'restaurant-img lazy';
 
   image.setAttribute('data-src', `/dist/img/${restaurant.id}-small.webp`);
-
-  image.alt = restaurant.alt;
+  
+  image.alt = `${restaurant.name} is a restaurant located in ${restaurant.neighborhood}`;
   picture.append(image);
 
   li.append(picture);

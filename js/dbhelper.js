@@ -70,6 +70,7 @@ class DBHelper {
    */
   static saveData(items, storeName) {
     console.log(`Saving data in ${storeName}`);
+    console.log(items);
     let dbPromise = DBHelper.openDatabase();
     dbPromise.then(db => {
       let tx = db.transaction(storeName, 'readwrite');
@@ -314,15 +315,61 @@ class DBHelper {
     })
   }
 
-  static saveReview(review) {
-    DBHelper.saveData(review, DBHelper.IDB_REVIEWS_STORE_NAME);
+  static refreshRestaurantReviews(config) {
+    let restaurantId = config.body.restaurant_id;
+    if (config.method === 'POST' && restaurantId) {
+      console.log(`Refreshing restaurant ${restaurantId} IDB reviews`);
+      DBHelper.idbClearRestaurantReviews(restaurantId);
+      // fill reviews
+      DBHelper.getReviewsByRestaurantId(restaurantId, (error, reviews) => {
+        if (!reviews) {
+          console.error(error);
+          return;
+        }
+        console.log('Refreshed the following restaurant ${restaurandId} IDB reviews');
+        console.log(reviews);
+      });
+    }
+  }
 
-    const url = `http://localhost:1337/reviews`;
+  static idbClearRestaurantReviews(restaurant_id) {
+    /* Open the IDB database */
+    let dbPromise = DBHelper.openDatabase();
+    dbPromise.then(db => {
+      /* Open transaction to retrieve restaurants */
+      let tx = db.transaction(DBHelper.IDB_REVIEWS_STORE_NAME, 'readwrite');
+      let reviewsStore = tx.objectStore(DBHelper.IDB_REVIEWS_STORE_NAME);
+      let reviewsRestaurantIdIndex = reviewsStore.index(DBHelper.IDB_REVIEWS_STORE_RESTAURANT_ID_INDEX);
+      return reviewsRestaurantIdIndex.openCursor();
+    })
+    .then(function iterate(cursor) {
+      if (!cursor) return;
+      console.log('Cursored at:', cursor.value.name);
+      if (cursor.value.restaurant_id === restaurant_id) {
+        cursor.delete();
+      }
+      return cursor.continue().then(iterate);
+    })
+    .then(() => console.log('Done cursoring'));
+  }
+
+  static saveReview(review) {
+    DBHelper.saveData([review], DBHelper.IDB_REVIEWS_STORE_NAME);
+
+    let encodedReview = {};
+    encodedReview.restaurant_id = encodeURI(review.restaurant_id);
+    encodedReview.name = encodeURI(review.name);
+    encodedReview.rating = encodeURI(review.rating);
+    encodedReview.comments = encodeURI(review.comments);
+
+    const url = `http://localhost:1337/reviews?restaurant_id=${encodedReview.restaurant_id}&name=${encodedReview.name}&rating=${encodedReview.rating}&comments=${encodedReview.comments}`;
     const config = {
       method: 'POST',
       body: review
     };
-    fetch(url, config).catch(() => {
+    fetch(url, config)
+    .then(DBHelper.refreshRestaurantReviews(config))
+    .catch(() => {
       console.log(`Could not perform the following request, will retry later: /${config.method} ${url}`);
       /* If it wasn't possible to update the server, try again later  */
       DBHelper.retry({url: url, config: config});
@@ -332,11 +379,16 @@ class DBHelper {
 
 window.addEventListener('online', () => {
   console.log('Back online again')
+  let newQueue = [];
   retryQueue.forEach((request) => {
     console.log(`Retrying request: /${request.config.method} ${request.url}`)
-    fetch(request.url, request.config);
+    fetch(request.url, request.config)
+    .then(DBHelper.refreshRestaurantReviews(config))
+    .catch(() => {
+      newQueue.push(request);
+    });
   });
-  retryQueue = [];
+  retryQueue = newQueue;
 });
 
 window.addEventListener('offline', () => {

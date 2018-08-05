@@ -4,24 +4,28 @@
 /* ====================== General ====================== */
 @font-face {
   font-family: 'Quicksand';
+  font-display: fallback;
   src: url(fonts/Quicksand/Quicksand-Bold.ttf);
   font-weight: bold;
 }
 
 @font-face {
   font-family: 'Quicksand';
+  font-display: fallback;
   src: url(fonts/Quicksand/Quicksand-Light.ttf);
   font-weight: lighter;
 }
 
 @font-face {
   font-family: 'Quicksand';
+  font-display: fallback;
   src: url(fonts/Quicksand/Quicksand-Regular.ttf);
   font-weight: 400;
 }
 
 @font-face {
   font-family: 'Quicksand';
+  font-display: fallback;
   src: url(fonts/Quicksand/Quicksand-Medium.ttf);
   font-weight: 500;
 }
